@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Climático</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard Climático de Ciudades Mexicanas</h1>
+    
+    <div class="dashboard-grid">
+        <div class="card">
+            <h2>Mapa de Ubicaciones</h2>
+            <div id="map-container">
+                <div id="map" style="height: 400px;"></div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Temperaturas por Ciudad</h2>
+            <div id="chart-container">
+                <canvas id="temperature-chart"></canvas>
+            </div>
+        </div>
+        
+        <div class="card full-width">
+            <h2>Datos Climáticos</h2>
+            <div class="table-container">
+                <table id="cities-table">
+                    <thead>
+                        <tr>
+                            <th>Ciudad</th>
+                            <th>Temperatura (°C)</th>
+                            <th>Humedad (%)</th>
+                            <th>Condición</th>
+                            <th>Latitud</th>
+                            <th>Longitud</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ciudad in ciudades %}
+                        <tr>
+                            <td>{{ ciudad.ciudad }}</td>
+                            <td>{{ ciudad.temperatura }}</td>
+                            <td>{{ ciudad.humedad }}</td>
+                            <td>{{ ciudad.condicion }}</td>
+                            <td>{{ ciudad.lat }}</td>
+                            <td>{{ ciudad.lon }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+	
+	
+	<!-- Añadir Leaflet CSS y JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    
+    <script>
+        window.ciudadesData = JSON.parse('{{ ciudades | tojson | safe }}');
+    </script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    </div>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
